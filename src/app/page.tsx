@@ -1,124 +1,168 @@
 import styles from './page.module.css';
+import {
+  AiMagicIcon,
+  AiMicIcon,
+  CheckmarkBadge01Icon,
+  Video01Icon,
+  Calendar01Icon,
+  Message01Icon,
+  AppleIcon
+} from 'hugeicons-react';
 
 export default function Home() {
   return (
     <div className={styles.container}>
       
-      {/* Ambient Animated Background */}
-      <div className={styles.ambientBg}>
-        <div className={styles.orb1}></div>
-        <div className={styles.orb2}></div>
-        <div className={styles.orb3}></div>
+      {/* Superhuman Full Width Audio-to-Text Pipeline */}
+      <div className={styles.superPipeline}>
+        
+        {/* Left Side: Flowing audio stream */}
+        <div className={styles.spLeft}>
+          <div className={styles.audioStream}>
+            {Array.from({ length: 120 }).map((_, i) => {
+              const scaleFactor = 1.5 + Math.random() * 4;
+              return (
+                <div 
+                  key={`s-${i}`} 
+                  className={styles.streamBar}
+                  style={{
+                    animationDelay: `${i * 0.1}s`,
+                    '--scale-factor': scaleFactor
+                  } as React.CSSProperties}
+                ></div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Center: Energy Field Converter (Absolute) */}
+        <div className={styles.energyField}></div>
+
+        {/* Right Side: Curvy Marquee Decoded Text */}
+        <div className={styles.spRight}>
+          <svg className={styles.textCurveSvg} viewBox="0 0 1000 300" preserveAspectRatio="none">
+            <path id="textPathOut" d="M0,150 C300,150 400,100 1000,50" fill="none" />
+            <text className={styles.decodedText}>
+              <textPath href="#textPathOut" startOffset="0%">
+                <animate attributeName="startOffset" from="-400%" to="0%" begin="0s" dur="60s" repeatCount="indefinite" />
+                {Array(20).fill("Alex: Numbers are up 20% this quarter. Sarah: Let's focus on retaining that growth. System: Action item created for Sarah. \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0").join("")}
+              </textPath>
+            </text>
+          </svg>
+        </div>
       </div>
 
+      {/* Ambient Animated Background */}
+      <div className={styles.glowBg}></div>
+
       <header className={styles.header}>
-        <div className={styles.logo}>Shii</div>
+        <div className={styles.logo}>
+          <div className={styles.logoIcon}></div>
+          Shii
+        </div>
         <nav className={styles.nav}>
           <a href="#features" className={styles.navLink}>Features</a>
           <a href="#pricing" className={styles.navLink}>Pricing</a>
-          <button className={styles.loginBtn}>Sign In</button>
+          <a href="#docs" className={styles.navLink}>Docs</a>
         </nav>
       </header>
 
       <main className={styles.bentoGrid}>
-        
+
         {/* Main Hero Bento */}
         <div className={`${styles.bentoCard} ${styles.heroBento}`}>
           <h1 className={styles.heroTitle}>
-            Meetings, magically distilled.
+            Capture meetings with<br />
+            Intelligent AI and <span className={styles.highlightText}>precise</span><br />
+            insights
           </h1>
           <p className={styles.heroSubtitle}>
-            Shii listens, understands, and extracts the perfect summary and action items from every conversation. Your intelligent meeting sidekick.
+            Save <span className={styles.highlightText} style={{ fontWeight: 600 }}>50+ hours</span> of manual note-taking per month
           </p>
           <div className={styles.ctaContainer}>
-            <button className={styles.primaryBtn}>Start for free</button>
-            <button className={styles.secondaryBtn}>Watch demo</button>
+            <button className={styles.primaryBtn}>Buy $89 <span style={{ textDecoration: 'line-through', opacity: 0.5 }}>$119</span></button>
+            <button className={styles.secondaryBtn}>
+              Download
+              <AppleIcon size={16} />
+            </button>
           </div>
         </div>
 
         {/* Feature 1: AI Summaries */}
         <div className={`${styles.bentoCard} ${styles.featureBento}`}>
           <div className={styles.iconWrapper}>
-            <span className={styles.sparkleIcon}>✨</span>
+            <AiMagicIcon size={28} />
           </div>
-          <h3 className={styles.bentoTitle}>Brilliant Summaries</h3>
-          <p className={styles.bentoDesc}>Flawless recaps that capture context, not just words.</p>
-          
-          <div className={styles.mockupContainer}>
-             <div className={`${styles.mockupItem} ${styles.mockupItem1}`}>
-                <div style={{flex: 1}}>
-                  <div style={{height: '10px', width: '30%', background: '#fff', borderRadius: '5px', marginBottom: '8px'}}></div>
-                  <div style={{height: '8px', width: '90%', background: 'rgba(255,255,255,0.4)', borderRadius: '4px'}}></div>
-                </div>
-             </div>
-             <div className={`${styles.mockupItem} ${styles.mockupItem2}`}>
-                <div style={{flex: 1}}>
-                  <div style={{height: '10px', width: '40%', background: '#fff', borderRadius: '5px', marginBottom: '8px'}}></div>
-                  <div style={{height: '8px', width: '70%', background: 'rgba(255,255,255,0.4)', borderRadius: '4px'}}></div>
-                </div>
-             </div>
-          </div>
+          <h3 className={styles.bentoTitle}>AI Summaries</h3>
+          <p className={styles.bentoDesc}>Flawless recaps that capture context.</p>
         </div>
 
-        {/* Tall Feature: Real-time Sync */}
-        <div className={`${styles.bentoCard} ${styles.tallBento}`}>
-          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 2}}>
-             <div className={styles.iconWrapper}>
-               <span className={styles.micIcon}>🎙️</span>
-             </div>
-             <div style={{background: 'rgba(244, 63, 94, 0.2)', padding: '0.4rem 0.8rem', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                <div className={styles.pulseDot}></div>
-                <span style={{fontSize: '0.8rem', fontWeight: 600, color: '#f43f5e'}}>Live</span>
-             </div>
-          </div>
-          
-          <h3 className={styles.bentoTitle} style={{marginTop: 'auto'}}>Lightning Fast</h3>
-          <p className={styles.bentoDesc}>Transcribe instantly as you speak. No delays, absolute accuracy.</p>
-          
-          <div className={styles.waveform}>
-             <div className={styles.bar} style={{animationDelay: '0.1s', height: '40%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.4s', height: '80%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.2s', height: '60%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.5s', height: '100%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.3s', height: '50%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.6s', height: '90%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.1s', height: '30%'}}></div>
-             <div className={styles.bar} style={{animationDelay: '0.7s', height: '70%'}}></div>
-          </div>
-        </div>
-
-        {/* Feature 2: Action Items */}
+        {/* Feature 2: Real-time Sync */}
         <div className={`${styles.bentoCard} ${styles.featureBento}`}>
           <div className={styles.iconWrapper}>
-            <span className={styles.boltIcon}>⚡</span>
+            <AiMicIcon size={28} />
+          </div>
+          <h3 className={styles.bentoTitle}>Live Sync</h3>
+          <p className={styles.bentoDesc}>Transcribe instantly as you speak.</p>
+
+          {/* Real Audio Waveform Simulation */}
+          <div className={styles.realWaveform}>
+            {Array.from({ length: 24 }).map((_, i) => {
+              const dur = 0.8 + Math.random() * 1.5;
+              const delay = Math.random() * -2;
+              return (
+                <div
+                  key={i}
+                  className={styles.audioBar}
+                  style={{
+                    animationDuration: `${dur}s`,
+                    animationDelay: `${delay}s`,
+                  }}
+                ></div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Feature 3: Action Items */}
+        <div className={`${styles.bentoCard} ${styles.featureBento}`}>
+          <div className={styles.iconWrapper}>
+            <CheckmarkBadge01Icon size={28} />
           </div>
           <h3 className={styles.bentoTitle}>Auto-Tasking</h3>
-          <p className={styles.bentoDesc}>Action items are instantly detected and assigned.</p>
-          
-          <div className={styles.mockupContainer}>
-             <div style={{display: 'flex', alignItems: 'center', gap: '1rem', background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)'}}>
-                <div style={{width: '20px', height: '20px', borderRadius: '6px', background: 'linear-gradient(135deg, #60a5fa, #3b82f6)', display: 'flex', alignItems: 'center', justify: 'center'}}><span style={{color: '#fff', fontSize: '10px'}}>✓</span></div>
-                <div style={{flex: 1}}>
-                   <div style={{height: '10px', width: '80%', background: '#fff', borderRadius: '5px', marginBottom: '6px'}}></div>
-                   <div style={{height: '8px', width: '30%', background: 'rgba(255,255,255,0.3)', borderRadius: '4px'}}></div>
-                </div>
-                <div style={{width: '24px', height: '24px', borderRadius: '50%', background: '#8b5cf6', border: '2px solid #222'}}></div>
-             </div>
-          </div>
+          <p className={styles.bentoDesc}>Tasks are detected and assigned.</p>
         </div>
 
         {/* Wide Feature: Integrations */}
-        <div className={`${styles.bentoCard} ${styles.wideBento}`}>
-          <div style={{maxWidth: '400px', zIndex: 2}}>
-             <h3 className={styles.bentoTitle}>Connected Ecosystem</h3>
-             <p className={styles.bentoDesc}>Works flawlessly with Zoom, Google Meet, Teams, Notion, and Slack.</p>
+        <div className={`${styles.bentoCard} ${styles.wideBento}`} style={{ paddingLeft: '0rem' }}>
+          <div className={styles.appWindow}>
+            <div className={styles.appHeader}>
+              <div className={styles.dot} style={{ background: '#ef4444' }}></div>
+              <div className={styles.dot} style={{ background: '#f59e0b' }}></div>
+              <div className={styles.dot} style={{ background: '#22c55e' }}></div>
+            </div>
+            <div style={{ fontSize: '0.8rem', color: '#a1a1aa', marginBottom: '0.5rem', fontWeight: 600 }}>Integrations</div>
+
+            <div className={styles.appRow}>
+              <div style={{ width: 8, height: 8, background: '#22c55e', borderRadius: '50%' }}></div>
+              <span style={{ fontSize: '0.85rem', color: '#fafafa', flex: 1 }}>Zoom</span>
+              <span style={{ fontSize: '0.75rem', color: '#71717a' }}>1</span>
+            </div>
+            <div className={styles.appRow}>
+              <div style={{ width: 8, height: 8, background: '#22c55e', borderRadius: '50%' }}></div>
+              <span style={{ fontSize: '0.85rem', color: '#fafafa', flex: 1 }}>Meet</span>
+              <span style={{ fontSize: '0.75rem', color: '#71717a' }}>1</span>
+            </div>
           </div>
-          <div style={{display: 'flex', gap: '1rem', zIndex: 2, flexWrap: 'wrap'}}>
-             {['📹', '📅', '💬', '📝', '⚡'].map((icon, i) => (
-                <div key={i} style={{width: '64px', height: '64px', borderRadius: '18px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', backdropFilter: 'blur(10px)', boxShadow: '0 10px 20px rgba(0,0,0,0.3)', transform: `translateY(${i % 2 === 0 ? '0' : '-10px'})`}}>
-                  {icon}
-                </div>
-             ))}
+
+          <div style={{ paddingRight: '2rem' }}>
+            <h3 className={styles.bentoTitle}>Connected Ecosystem</h3>
+            <p className={styles.bentoDesc} style={{ marginBottom: '1.5rem' }}>Works seamlessly with your tools.</p>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <div style={{ padding: '0.5rem', borderRadius: '8px', background: '#27272a', color: '#fafafa' }}><Video01Icon size={20} /></div>
+              <div style={{ padding: '0.5rem', borderRadius: '8px', background: '#27272a', color: '#fafafa' }}><Calendar01Icon size={20} /></div>
+              <div style={{ padding: '0.5rem', borderRadius: '8px', background: '#27272a', color: '#fafafa' }}><Message01Icon size={20} /></div>
+            </div>
           </div>
         </div>
 
