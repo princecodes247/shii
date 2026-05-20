@@ -86,10 +86,10 @@
   transform: translate(-50%, -50%);
   width: 4px;
   height: 250px;
-  background: rgba(168, 85, 247, 0.6);
-  border-left: 1px solid rgba(168, 85, 247, 0.9);
-  border-right: 1px solid rgba(168, 85, 247, 0.9);
-  box-shadow: 0 0 20px 4px rgba(168, 85, 247, 0.5);
+  background: rgba(227, 232, 166, 0.6);
+  border-left: 1px solid rgba(227, 232, 166, 0.9);
+  border-right: 1px solid rgba(227, 232, 166, 0.9);
+  box-shadow: 0 0 20px 4px rgba(227, 232, 166, 0.5);
   backdrop-filter: blur(8px) brightness(1.5);
   -webkit-backdrop-filter: blur(8px) brightness(1.5);
   mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);

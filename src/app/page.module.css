@@ -16,7 +16,7 @@
   transform: translateX(-50%);
   width: 800px;
   height: 800px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(227, 232, 166, 0.05) 30%, transparent 60%);
+  background: radial-gradient(circle, rgba(227, 232, 166, 0.12) 0%, rgba(227, 232, 166, 0.05) 30%, transparent 60%);
   filter: blur(80px);
   z-index: 0;
   pointer-events: none;
@@ -47,7 +47,7 @@
 .logoIcon {
   width: 24px;
   height: 24px;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   border-radius: 6px;
 }
 
@@ -152,7 +152,7 @@
 }
 
 .highlightText {
-  color: #a855f7;
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -233,7 +233,7 @@
 
 .audioBar {
   width: 5px;
-  background: linear-gradient(to top, var(--accent), var(--chip-green));
+  background: linear-gradient(to top, var(--accent), var(--accent-hover));
   border-radius: 3px;
   animation-name: audioPulse;
   animation-iteration-count: infinite;
