@@ -6,7 +6,10 @@ import {
   Video01Icon,
   Calendar01Icon,
   Message01Icon,
-  AppleIcon
+  AppleIcon,
+  GithubIcon,
+  StarIcon,
+  OpenSourceIcon
 } from 'hugeicons-react';
 import AudioPipeline from '@/components/AudioPipeline';
 
@@ -23,9 +26,11 @@ export default function Home() {
           Shii
         </div>
         <nav className={styles.nav}>
-          <a href="#features" className={styles.navLink}>Features</a>
-          <a href="#pricing" className={styles.navLink}>Pricing</a>
-          <a href="#docs" className={styles.navLink}>Docs</a>
+          <a href="https://github.com/shii" target="_blank" rel="noopener noreferrer" className={styles.githubBtn}>
+            <StarIcon size={14} />
+            Star on GitHub
+            <GithubIcon size={16} />
+          </a>
         </nav>
       </header>
 
@@ -94,6 +99,15 @@ export default function Home() {
           </div>
           <h3 className={styles.bentoTitle}>Auto-Tasking</h3>
           <p className={styles.bentoDesc}>Tasks are detected and assigned.</p>
+        </div>
+
+        {/* Feature 4: Open Source */}
+        <div className={`${styles.bentoCard} ${styles.featureBento}`}>
+          <div className={styles.iconWrapper}>
+            <OpenSourceIcon size={28} />
+          </div>
+          <h3 className={styles.bentoTitle}>Open Source</h3>
+          <p className={styles.bentoDesc}>Fully transparent. Fork, extend, and self-host.</p>
         </div>
 
         {/* Wide Feature: Integrations */}
