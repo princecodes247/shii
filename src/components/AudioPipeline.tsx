@@ -1,27 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+
+const streamBars = Array.from({ length: 120 }).map((_, i) => ({
+  scaleFactor: 1.5 + Math.random() * 4,
+  delay: i * 0.1,
+}));
 
 export default function AudioPipeline() {
+  const bars = useMemo(() => streamBars, []);
   return (
-    <div className="pipeline-wrapper relative w-screen left-1/2 -ml-[50vw] h-[200px] mt-8 mb-4 col-span-3 row-span-1">
+    <div className="pipeline-wrapper relative w-full h-[200px] mt-8 mb-4">
       <div className="absolute -top-[30px] left-0 w-full h-full flex items-center justify-between pointer-events-none z-0 opacity-40">
 
         {/* Left Side: Flowing audio stream */}
         <div className="w-1/2 h-full relative flex items-center justify-end">
           <div className="audio-stream flex items-center justify-end gap-1.5 h-[150px] w-full pr-1 overflow-hidden">
-            {Array.from({ length: 120 }).map((_, i) => {
-              const scaleFactor = 1.5 + Math.random() * 4;
-              return (
-                <div
-                  key={`s-${i}`}
-                  className="stream-bar w-1 h-[15px] bg-accent rounded-sm opacity-80 origin-center"
-                  style={{
-                    animationDelay: `${i * 0.1}s`,
-                    '--scale-factor': scaleFactor,
-                    animation: 'pulseSound 1.5s ease-in-out infinite',
-                  } as React.CSSProperties}
-                />
-              );
-            })}
+            {bars.map((bar, i) => (
+              <div
+                key={`s-${i}`}
+                className="stream-bar w-1 h-[15px] bg-accent rounded-sm opacity-80 origin-center"
+                style={{
+                  '--scale-factor': bar.scaleFactor,
+                  animation: `pulseSound 1.5s ease-in-out ${bar.delay}s infinite`,
+                } as React.CSSProperties}
+              />
+            ))}
           </div>
         </div>
 

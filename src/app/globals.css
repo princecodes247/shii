@@ -80,11 +80,26 @@
 }
 
 /* Responsive overrides */
+
+/* Tablet: 768px - 1024px */
 @media (max-width: 1024px) {
   .hero-title {
-    font-size: 3.5rem !important;
+    font-size: 3.2rem !important;
   }
-  .bento-grid {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .features-grid > .feature-bento {
+    grid-column: span 1 !important;
+  }
+  .hero-bento {
+    padding: 4rem 2rem !important;
+  }
+}
+
+/* Tablet hero grid: 3 cols → 2 cols */
+@media (max-width: 1024px) and (min-width: 769px) {
+  section:has(> .hero-bento) {
     grid-template-columns: repeat(2, 1fr) !important;
   }
   .hero-bento {
@@ -95,26 +110,36 @@
   }
 }
 
+/* Mobile: < 768px */
 @media (max-width: 768px) {
-  .bento-grid {
+  .hero-title {
+    font-size: 2.2rem !important;
+    br {
+      display: none;
+    }
+  }
+  .hero-bento {
+    grid-column: span 1 !important;
+    padding: 3rem 1.5rem !important;
+  }
+  section:has(> .hero-bento) {
     grid-template-columns: 1fr !important;
   }
-  .hero-bento,
-  .feature-bento,
-  .wide-bento {
-    grid-column: span 1 !important;
+  .features-grid {
+    grid-template-columns: 1fr !important;
   }
-  .hero-title {
-    font-size: 2.8rem !important;
+  .features-grid > .feature-bento {
+    grid-column: span 1 !important;
   }
   .wide-bento {
     flex-direction: column !important;
     align-items: flex-start !important;
-    padding: 2rem !important;
+    padding: 1.5rem !important;
   }
   .app-window-inner {
     width: 100% !important;
-    height: 150px !important;
+    height: auto !important;
+    min-height: 130px;
     border-top-right-radius: 16px;
     border-right: 1px solid #27272a;
     border-bottom: none;
