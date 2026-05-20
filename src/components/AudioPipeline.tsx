@@ -29,7 +29,7 @@ export default function AudioPipeline() {
 
         {/* Right Side: Curvy Marquee Decoded Text */}
         <div className={styles.spRight}>
-          <svg className={styles.textCurveSvg} viewBox="0 0 1000 300" preserveAspectRatio="none">
+          <svg className={styles.textCurveSvg} viewBox="0 0 1000 300" preserveAspectRatio="xMinYMid slice">
             <path id="textPathOut" d="M0,150 C300,150 400,100 1000,50" fill="none" />
             <text className={styles.decodedText}>
               <textPath href="#textPathOut" startOffset="0%">
