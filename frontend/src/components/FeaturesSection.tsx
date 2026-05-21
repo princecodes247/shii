@@ -41,13 +41,13 @@ const audioBars = Array.from({ length: 24 }).map(() => ({
 export default function FeaturesSection() {
   const bars = useMemo(() => audioBars, []);
   return (
-    <section className="features-grid grid md:grid-cols-3 gap-4 w-full max-w-[1000px] px-8">
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-[1000px] px-8">
       {features.map((feature, i) => {
         const Icon = feature.icon;
         return (
           <div
             key={i}
-            className="feature-bento relative col-span-1 bg-card border border-card-border rounded-3xl p-8 flex flex-col relative overflow-hidden transition-colors duration-300 hover:border-white/15"
+            className="relative bg-card border border-card-border rounded-3xl p-8 flex flex-col relative overflow-hidden transition-colors duration-300 hover:border-white/15"
           >
             <div className="text-text-muted mb-3 flex items-center justify-start">
               <Icon size={28} />
@@ -75,7 +75,7 @@ export default function FeaturesSection() {
           </div>
         );
       })}
-      <div className="wide-bento min-h-[250px] col-span-2 bg-card border border-card-border rounded-3xl flex flex-row items-center justify-between relative transition-colors duration-300 hover:border-white/15 pl-0">
+      <div className="wide-bento min-h-[250px] md:col-span-2 bg-card border border-card-border rounded-3xl flex flex-row items-center justify-between relative transition-colors duration-300 hover:border-white/15 pl-0">
         <div className="app-window-inner rounded-tl-3xl md:rounded-l-3xl border border-card-border md:border-none overflow-hidden md:overflow-visible bg-bg w-[250px] h-full p-4 flex flex-col">
           <div className="flex gap-1.5 mb-4">
             <div className="w-2.5 h-2.5 rounded-full bg-[#ef4444]" />

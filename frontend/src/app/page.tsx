@@ -18,7 +18,9 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center relative">
 
       {/* Ambient Animated Background */}
-      <div className="glow-bg absolute -top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] z-0 pointer-events-none" />
+      <div className="absolute inset-0 overflow-hidden w-screen">
+        <div className="glow-bg absolute -top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[800px] z-0 pointer-events-none" />
+      </div>
 
       <header className="w-full max-w-[1000px] px-8 py-6 flex justify-between items-center z-100 relative">
         <div className="text-xl font-bold tracking-tight text-text-main flex items-center gap-2">
@@ -28,7 +30,7 @@ export default function Home() {
         </div>
         <nav className="flex gap-8 items-center">
           <a
-            href="https://github.com/shii"
+            href="https://github.com/princecodes247/shii"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium text-text-main flex items-center gap-2 px-4 py-2 rounded-full border border-card-border bg-card transition-all duration-200 hover:border-white/20 hover:bg-[#1a1a1e]"
@@ -52,7 +54,7 @@ export default function Home() {
             <p className="text-xl font-normal text-text-muted max-w-[600px] mx-auto mb-10 leading-normal relative z-2">
               Capture <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover font-semibold">everything</span> and leave with structured notes and tasks.
             </p>
-            <div className="flex gap-4 justify-center z-2 relative">
+            <div className="flex flex-col md:flex-row gap-4 justify-center z-2 relative">
               <button
                 onClick={() => setShowDialog(true)}
                 className="px-8 py-3 rounded-full bg-accent text-black font-semibold text-base border-none cursor-pointer transition-colors duration-200 hover:bg-accent-hover"

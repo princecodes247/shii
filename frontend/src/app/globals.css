@@ -55,18 +55,23 @@
 }
 
 @keyframes audioPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     height: 20%;
     opacity: 0.4;
   }
+
   30% {
     height: 80%;
     opacity: 0.9;
   }
+
   50% {
     height: 45%;
     opacity: 0.6;
   }
+
   80% {
     height: 100%;
     opacity: 1;
@@ -86,56 +91,25 @@
   .hero-title {
     font-size: 3.2rem !important;
   }
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  .features-grid > .feature-bento {
-    grid-column: span 1 !important;
-  }
-  .hero-bento {
-    padding: 4rem 2rem !important;
-  }
 }
 
-/* Tablet hero grid: 3 cols → 2 cols */
-@media (max-width: 1024px) and (min-width: 769px) {
-  section:has(> .hero-bento) {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  .hero-bento {
-    grid-column: span 2 !important;
-  }
-  .wide-bento {
-    grid-column: span 2 !important;
-  }
-}
 
 /* Mobile: < 768px */
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.2rem !important;
-    br {
+
+    /* br {
       display: none;
-    }
+    } */
   }
-  .hero-bento {
-    grid-column: span 1 !important;
-    padding: 3rem 1.5rem !important;
-  }
-  section:has(> .hero-bento) {
-    grid-template-columns: 1fr !important;
-  }
-  .features-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .features-grid > .feature-bento {
-    grid-column: span 1 !important;
-  }
+
   .wide-bento {
     flex-direction: column !important;
     align-items: flex-start !important;
     padding: 1.5rem !important;
   }
+
   .app-window-inner {
     width: 100% !important;
     height: auto !important;
@@ -148,8 +122,8 @@
 
 /* ---- AudioPipeline custom styles ---- */
 .audio-stream {
-  mask-image: linear-gradient(to right, black 0%, black 85%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 0%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 90%, transparent 100%);
 }
 
 .stream-bar {
@@ -157,10 +131,13 @@
 }
 
 @keyframes pulseSound {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scaleY(1);
     opacity: 0.3;
   }
+
   50% {
     transform: scaleY(var(--scale-factor, 3));
     opacity: 1;
