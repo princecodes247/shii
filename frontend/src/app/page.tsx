@@ -44,19 +44,18 @@ export default function Home() {
         <section className="w-full max-w-[1000px] mt-4 px-8">
           <div className="hero-bento flex flex-col items-center justify-center text-center bg-transparent border-none rounded-3xl p-16 px-8 pb-8 relative overflow-hidden">
             <h1 className="hero-title text-[4.5rem] font-bold leading-[1.05] tracking-[-0.04em] mb-6 text-white relative z-2">
-              Capture meetings with<br />
-              Intelligent AI and <span className="text-accent font-semibold">precise</span><br />
-              insights
+              All your meeting shii,<br />
+              <span className="text-accent font-semibold">handled.</span><br />
             </h1>
             <p className="text-xl font-normal text-text-muted max-w-[600px] mx-auto mb-10 leading-normal relative z-2">
-              Save <span className="text-accent font-semibold">50+ hours</span> of manual note-taking per month
+              Capture <span className="text-accent font-semibold">everything</span> and leave with structured notes and tasks.
             </p>
             <div className="flex gap-4 justify-center z-2 relative">
               <button
                 onClick={() => setShowDialog(true)}
                 className="px-8 py-3 rounded-full bg-accent text-black font-semibold text-base border-none cursor-pointer transition-colors duration-200 hover:bg-accent-hover"
               >
-                Buy $89 <span className="line-through opacity-50">$119</span>
+                Buy $9 <span className="line-through opacity-50">$39</span>
               </button>
               <button
                 onClick={() => setShowDialog(true)}

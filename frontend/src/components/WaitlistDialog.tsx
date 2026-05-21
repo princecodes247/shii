@@ -37,7 +37,7 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
           onClick={onClose}
           className="absolute top-4 right-4 text-text-muted hover:text-text-main transition-colors cursor-pointer"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18" /><path d="M6 6l12 12" /></svg>
         </button>
 
         {submitted ? (
@@ -50,7 +50,7 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
           <>
             <h3 className="text-xl font-semibold text-white mb-2">Join the waitlist</h3>
             <p className="text-text-muted text-sm mb-6">
-              Be the first to know when Shii launches.
+              Get early access and help shape how Shii works.
             </p>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
