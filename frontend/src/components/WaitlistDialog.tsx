@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onClose();
@@ -19,9 +20,28 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
     };
   }, [handleKeyDown]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (!email) return;
+    
+    setLoading(true);
+    try {
+      const waitlistUrl = process.env.NEXT_PUBLIC_WAITLIST_URL;
+      if (!waitlistUrl) throw new Error('Waitlist URL is not configured');
+
+      await fetch(waitlistUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Error joining waitlist:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,9 +83,10 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
               />
               <button
                 type="submit"
-                className="w-full px-6 py-3 rounded-full bg-accent text-black font-semibold text-sm border-none cursor-pointer transition-colors hover:bg-accent-hover"
+                disabled={loading}
+                className="w-full px-6 py-3 rounded-full bg-accent text-black font-semibold text-sm border-none cursor-pointer transition-colors hover:bg-accent-hover disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Join waitlist
+                {loading ? 'Joining...' : 'Join waitlist'}
               </button>
             </form>
           </>
