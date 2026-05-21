@@ -59,7 +59,7 @@ export default function Home() {
                 onClick={() => setShowDialog(true)}
                 className="px-8 py-3 rounded-full bg-accent text-black font-semibold text-base border-none cursor-pointer transition-colors duration-200 hover:bg-accent-hover"
               >
-                Buy $9 <span className="line-through opacity-50">$39</span>
+                Buy $5 <span className="line-through opacity-50">$19</span>
               </button>
               <button
                 onClick={() => setShowDialog(true)}

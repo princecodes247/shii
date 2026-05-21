@@ -6,6 +6,7 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onClose();
@@ -23,22 +24,30 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    
+
     setLoading(true);
+    setError(null);
     try {
       const waitlistUrl = process.env.NEXT_PUBLIC_WAITLIST_URL;
       if (!waitlistUrl) throw new Error('Waitlist URL is not configured');
 
-      await fetch(waitlistUrl, {
+      const response = await fetch(waitlistUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
       });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || 'Failed to join waitlist');
+      }
+
       setSubmitted(true);
-    } catch (error) {
-      console.error('Error joining waitlist:', error);
+    } catch (err: any) {
+      // console.error('Error joining waitlist:', err);
+      setError(err.message || 'An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -81,6 +90,11 @@ export default function WaitlistDialog({ onClose }: { onClose: () => void }) {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-bg border border-card-border text-text-main text-sm outline-none focus:border-accent transition-colors placeholder:text-zinc-600"
               />
+              {error && (
+                <div className="text-red-400 text-sm text-center">
+                  {error}
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={loading}
