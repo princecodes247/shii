@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 
 const streamBars = Array.from({ length: 120 }).map((_, i) => ({
   scaleFactor: 1.5 + Math.random() * 4,
-  delay: i * 0.1,
-}));
+  delay: -(i * 0.1),
+})).reverse();
 
 export default function AudioPipeline() {
   const bars = useMemo(() => streamBars, []);

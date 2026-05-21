@@ -47,10 +47,10 @@ export default function Home() {
           <div className="hero-bento flex flex-col items-center justify-center text-center bg-transparent border-none rounded-3xl p-16 px-8 pb-8 relative overflow-hidden">
             <h1 className="hero-title text-[4.5rem] font-bold leading-[1.05] tracking-[-0.04em] mb-6 text-white relative z-2">
               All your meeting shii,<br />
-              <span className="text-accent font-semibold">handled.</span><br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover font-semibold">handled.</span><br />
             </h1>
             <p className="text-xl font-normal text-text-muted max-w-[600px] mx-auto mb-10 leading-normal relative z-2">
-              Capture <span className="text-accent font-semibold">everything</span> and leave with structured notes and tasks.
+              Capture <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover font-semibold">everything</span> and leave with structured notes and tasks.
             </p>
             <div className="flex gap-4 justify-center z-2 relative">
               <button
