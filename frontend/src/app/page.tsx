@@ -9,6 +9,7 @@ import {
 import AudioPipeline from '@/components/AudioPipeline';
 import FeaturesSection from '@/components/FeaturesSection';
 import WaitlistDialog from '@/components/WaitlistDialog';
+import Logo from '@/components/ui/logo';
 
 export default function Home() {
   const [showDialog, setShowDialog] = useState(false);
@@ -21,7 +22,8 @@ export default function Home() {
 
       <header className="w-full max-w-[1000px] px-8 py-6 flex justify-between items-center z-100 relative">
         <div className="text-xl font-bold tracking-tight text-text-main flex items-center gap-2">
-          <div className="logo-icon w-6 h-6 rounded-[6px]" />
+          {/* <div className="logo-icon w-6 h-6 rounded-[6px]" /> */}
+          <Logo />
           Shii
         </div>
         <nav className="flex gap-8 items-center">

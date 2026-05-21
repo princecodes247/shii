@@ -148,8 +148,8 @@
 
 /* ---- AudioPipeline custom styles ---- */
 .audio-stream {
-  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 90%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to right, black 0%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, black 85%, transparent 100%);
 }
 
 .stream-bar {
