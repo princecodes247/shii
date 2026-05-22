@@ -20,25 +20,25 @@ struct LiveRecordingView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Recording...")
                     .font(.system(size: 13, weight: .medium, design: .default))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.brandTextMain)
                 
                 Text(transcribingText)
                     .font(.system(size: 11, design: .default))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.brandTextMuted)
             }
             
             Spacer()
             
             Text("00:18:42")
                 .font(.system(size: 13, weight: .regular, design: .monospaced))
-                .foregroundColor(.secondary)
+                .foregroundColor(.brandTextMuted)
             
             // Stop button
             Button {
                 appState.endSession()
             } label: {
                 Image(systemName: "stop.circle.fill")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.brandTextMuted)
                     .font(.system(size: 18))
             }
             .buttonStyle(.plain)
@@ -49,11 +49,12 @@ struct LiveRecordingView: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(.ultraThinMaterial)
+                .background(Color.brandCard.opacity(0.5).cornerRadius(16))
                 .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                .stroke(Color.brandCardBorder, lineWidth: 1)
         )
     }
 }

@@ -21,7 +21,7 @@ struct MeetingDetailView: View {
                         Text("Participants: \(meeting.participantsCount)")
                     }
                     .font(.system(size: 14, weight: .medium, design: .default))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.brandTextMuted)
                 }
                 .padding(.top, 24)
                 
@@ -36,7 +36,11 @@ struct MeetingDetailView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.accentColor.opacity(0.05))
+                        .fill(Color.brandCard)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.brandCardBorder, lineWidth: 1)
                 )
                 
                 // Section 2: Key decisions
@@ -81,11 +85,15 @@ struct MeetingDetailView: View {
                                     HStack(spacing: 8) {
                                         Text(task.assignee)
                                             .font(.system(size: 13, weight: .semibold))
-                                            .foregroundColor(.primary)
+                                            .foregroundColor(.brandTextMain)
                                             .padding(.horizontal, 8)
                                             .padding(.vertical, 4)
-                                            .background(Color.secondary.opacity(0.1))
+                                            .background(Color.brandCard)
                                             .cornerRadius(6)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 6)
+                                                    .stroke(Color.brandCardBorder, lineWidth: 1)
+                                            )
                                         
                                         Image(systemName: "arrow.right")
                                             .font(.system(size: 10, weight: .semibold))
@@ -165,9 +173,10 @@ struct MeetingDetailView: View {
                 Spacer().frame(height: 60)
             }
             .padding(.horizontal, 40)
+            .padding(.top, 48)
             .frame(maxWidth: 800, alignment: .leading)
         }
-        .background(Color(NSColor.textBackgroundColor))
+        .background(Color.brandBg)
     }
 }
 
@@ -178,10 +187,12 @@ struct SectionHeader: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.system(size: 11, weight: .semibold, design: .default))
-                .foregroundColor(.secondary)
+                .foregroundColor(.brandTextMuted)
                 .tracking(1.0)
             
-            Divider()
+            Rectangle()
+                .fill(Color.brandCardBorder)
+                .frame(height: 1)
         }
     }
 }
