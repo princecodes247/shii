@@ -40,7 +40,9 @@ struct LiveRecordingView: View {
             
             // Stop button
             Button {
-                appState.endSession()
+                Task {
+                    await appState.endSession()
+                }
             } label: {
                 Image(systemName: "stop.circle.fill")
                     .foregroundColor(.brandTextMuted)

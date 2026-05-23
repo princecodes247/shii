@@ -6,7 +6,7 @@ import Observation
 class AppState {
     var meetings: [Meeting]
     var activeSession: ActiveSession?
-    var transcriptionService = TranscriptionService()
+    var transcriptionService = TranscriptionService(engine: ArgmaxEngine())
     
     init(meetings: [Meeting] = Meeting.mockData) {
         self.meetings = meetings
@@ -28,11 +28,12 @@ class AppState {
         }
     }
     
-    func endSession() {
+    func endSession() async {
         transcriptionService.stopRecording()
         
         // Mock saving the session to a meeting
         if let session = activeSession {
+            let transcript = await transcriptionService.generateFinalDiarizedTranscript()
             let newMeeting = Meeting(
                 title: "New Recording",
                 date: session.startTime,
@@ -42,7 +43,7 @@ class AppState {
                 participantsCount: 1,
                 tasks: [],
                 decisions: [],
-                transcript: transcriptionService.generateFinalDiarizedTranscript(),
+                transcript: transcript,
                 isImportant: false
             )
             meetings.insert(newMeeting, at: 0)
