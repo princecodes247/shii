@@ -110,3 +110,9 @@ extension Date {
         return formatter.string(from: self)
     }
 }
+
+enum TranscriptionEngineType: String, CaseIterable, Identifiable {
+    case fluidAudio = "FluidAudio"
+    case argmax = "Argmax"
+    var id: String { self.rawValue }
+}

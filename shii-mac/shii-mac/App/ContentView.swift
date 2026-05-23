@@ -61,11 +61,7 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(Color.brandBg)
                     } else if selectedTab == .settings {
-                        Text("Settings Placeholder")
-                            .font(.system(size: 14))
-                            .foregroundColor(.brandTextMuted)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.brandBg)
+                        SettingsView()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -188,3 +184,5 @@ struct SidebarButton: View {
     ContentView()
         .environment(AppState())
 }
+
+

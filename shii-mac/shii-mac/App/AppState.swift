@@ -6,10 +6,35 @@ import Observation
 class AppState {
     var meetings: [Meeting]
     var activeSession: ActiveSession?
-    var transcriptionService = TranscriptionService(engine: ArgmaxEngine())
+    var transcriptionService: TranscriptionService
     
     init(meetings: [Meeting] = Meeting.mockData) {
         self.meetings = meetings
+        
+        let savedEngine = UserDefaults.standard.string(forKey: "transcriptionEngine") ?? TranscriptionEngineType.argmax.rawValue
+        if savedEngine == TranscriptionEngineType.fluidAudio.rawValue {
+            self.transcriptionService = TranscriptionService(engine: FluidAudioEngine())
+        } else {
+            self.transcriptionService = TranscriptionService(engine: ArgmaxEngine())
+        }
+    }
+    
+    func updateTranscriptionEngine(_ type: TranscriptionEngineType) {
+        let newEngine: TranscriptionEngine
+        switch type {
+        case .fluidAudio:
+            newEngine = FluidAudioEngine()
+        case .argmax:
+            newEngine = ArgmaxEngine()
+        }
+        
+        if activeSession != nil {
+            transcriptionService.stopRecording()
+            // In a real app we might resume recording, but for now we just stop.
+        }
+        
+        transcriptionService = TranscriptionService(engine: newEngine)
+        UserDefaults.standard.set(type.rawValue, forKey: "transcriptionEngine")
     }
     
     func startSession() {

@@ -104,8 +104,8 @@ class ArgmaxEngine: TranscriptionEngine {
             return [TranscriptItem(timestamp: "00:00", speaker: "Unknown", text: fallbackText)]
         }
         
-        // Pad with 1 second of silence (16000 samples at 16kHz) to prevent the final words from being cut off
-        audioArray.append(contentsOf: Array(repeating: Float(0), count: 16000))
+        // Pad with 5 seconds of silence (16000 samples at 16kHz) to prevent the final words from being cut off
+        audioArray.append(contentsOf: Array(repeating: Float(0), count: 16000 * 5))
         
         do {
             let decodeOptions = DecodingOptions(wordTimestamps: true)
@@ -157,8 +157,8 @@ class ArgmaxEngine: TranscriptionEngine {
         let audioArray = try AudioProcessor.loadAudioAsFloatArray(fromPath: url.path)
         var floatArray = audioArray
         
-        // Pad with 1 second of silence
-        floatArray.append(contentsOf: Array(repeating: Float(0), count: 16000))
+        // Pad with 5 seconds of silence
+        floatArray.append(contentsOf: Array(repeating: Float(0), count: 16000 * 5))
         
         let decodeOptions = DecodingOptions(wordTimestamps: true)
         let transcription = try await wk.transcribe(audioArray: floatArray, decodeOptions: decodeOptions)
