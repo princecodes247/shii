@@ -61,24 +61,34 @@ class ArgmaxEngine: TranscriptionEngine {
         transcriptionTask?.cancel()
         
         transcriptionTask = Task {
-            while !Task.isCancelled && isRecording {
-                try? await Task.sleep(nanoseconds: 2_000_000_000)
-                
-                guard let wk = self.whisperKit else { continue }
-                
-                let samplesToTranscribe = await MainActor.run { return self.accumulatedSamples }
-                
-                if samplesToTranscribe.count > Int(sampleRate) {
-                    do {
+            while !Task.isCancelled {
+                do {
+                    try await Task.sleep(nanoseconds: 2_000_000_000)
+                    guard let wk = self.whisperKit else { continue }
+                    
+                    if self.accumulatedSamples.count > 0 {
+                        let samplesToTranscribe = await MainActor.run {
+                            let total = self.accumulatedSamples.count
+                            let limit = 16000 * 30 // 30 seconds at 16kHz
+                            if total > limit {
+                                return Array(self.accumulatedSamples.suffix(limit))
+                            }
+                            return Array(self.accumulatedSamples)
+                        }
+                        
                         let transcription = try await wk.transcribe(audioArray: samplesToTranscribe)
-                        if let text = transcription.first?.text, !text.isEmpty {
+                        let fullText = transcription.map { $0.text }.joined(separator: " ").trimmingCharacters(in: .whitespacesAndNewlines)
+                        
+                        if !fullText.isEmpty {
                             await MainActor.run {
-                                self.delegate?.engine(self, didUpdateText: text)
+                                self.delegate?.engine(self, didUpdateText: fullText)
                             }
                         }
-                    } catch {
-                        print("Argmax transcription loop error: \(error)")
                     }
+                } catch is CancellationError {
+                    // Ignore cancellation
+                } catch {
+                    print("Transcription loop error: \(error)")
                 }
             }
         }
@@ -98,7 +108,8 @@ class ArgmaxEngine: TranscriptionEngine {
         audioArray.append(contentsOf: Array(repeating: Float(0), count: 16000))
         
         do {
-            let transcription = try await wk.transcribe(audioArray: audioArray)
+            let decodeOptions = DecodingOptions(wordTimestamps: true)
+            let transcription = try await wk.transcribe(audioArray: audioArray, decodeOptions: decodeOptions)
             let diarization = try await sk.diarize(audioArray: audioArray)
             
             let speakerSegments = diarization.addSpeakerInfo(to: transcription)
@@ -128,9 +139,14 @@ class ArgmaxEngine: TranscriptionEngine {
     }
     
     private func formatTimestamp(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
+        let hours = Int(time) / 3600
+        let minutes = (Int(time) % 3600) / 60
         let seconds = Int(time) % 60
-        return String(format: "%02i:%02i", minutes, seconds)
+        if hours > 0 {
+            return String(format: "%02i:%02i:%02i", hours, minutes, seconds)
+        } else {
+            return String(format: "%02i:%02i", minutes, seconds)
+        }
     }
     
     func transcribeFile(url: URL) async throws -> [TranscriptItem] {
@@ -144,7 +160,8 @@ class ArgmaxEngine: TranscriptionEngine {
         // Pad with 1 second of silence
         floatArray.append(contentsOf: Array(repeating: Float(0), count: 16000))
         
-        let transcription = try await wk.transcribe(audioArray: floatArray)
+        let decodeOptions = DecodingOptions(wordTimestamps: true)
+        let transcription = try await wk.transcribe(audioArray: floatArray, decodeOptions: decodeOptions)
         let diarization = try await sk.diarize(audioArray: floatArray)
         
         let speakerSegments = diarization.addSpeakerInfo(to: transcription)

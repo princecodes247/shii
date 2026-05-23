@@ -51,25 +51,17 @@ class AudioRecorder {
         
         let settings: [String: Any] = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: inputFormat.sampleRate,
-            AVNumberOfChannelsKey: inputFormat.channelCount,
-            AVEncoderBitRateKey: 128000
+            AVSampleRateKey: targetFormat.sampleRate,
+            AVNumberOfChannelsKey: targetFormat.channelCount
         ]
         
-        audioFile = try AVAudioFile(forWriting: url, settings: settings, commonFormat: inputFormat.commonFormat, interleaved: inputFormat.isInterleaved)
+        audioFile = try AVAudioFile(forWriting: url, settings: settings, commonFormat: targetFormat.commonFormat, interleaved: targetFormat.isInterleaved)
         
         inputNode.removeTap(onBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 8192, format: inputFormat) { [weak self] (buffer, when) in
             guard let self = self else { return }
             
-            // 1. Write the original buffer to the file
-            do {
-                try self.audioFile?.write(from: buffer)
-            } catch {
-                print("Failed to write audio buffer to file: \(error)")
-            }
-            
-            // 2. Convert and pass to transcription engine
+            // Convert to 16kHz float mono
             let capacity = AVAudioFrameCount(targetFormat.sampleRate * Double(buffer.frameLength) / inputFormat.sampleRate)
             guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: capacity + 1024) else { return }
             
@@ -87,6 +79,11 @@ class AudioRecorder {
             
             if status != .error, convertError == nil {
                 self.onAudioBuffer?(outputBuffer)
+                do {
+                    try self.audioFile?.write(from: outputBuffer)
+                } catch {
+                    print("Failed to write audio output buffer to file: \(error)")
+                }
             }
         }
         
