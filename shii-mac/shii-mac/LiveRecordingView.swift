@@ -24,6 +24,7 @@ struct LiveRecordingView: View {
                     .font(.system(size: 11, design: .default))
                     .foregroundColor(.brandTextMuted)
                     .lineLimit(1)
+                    .truncationMode(.head)
             }
             
             Spacer()

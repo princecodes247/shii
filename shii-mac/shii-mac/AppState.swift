@@ -42,7 +42,7 @@ class AppState {
                 participantsCount: 1,
                 tasks: [],
                 decisions: [],
-                transcript: [TranscriptItem(timestamp: "00:00", speaker: "You", text: transcriptionService.currentTranscript)],
+                transcript: transcriptionService.generateFinalDiarizedTranscript(),
                 isImportant: false
             )
             meetings.insert(newMeeting, at: 0)
