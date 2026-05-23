@@ -54,29 +54,38 @@ class AppState {
     }
     
     func endSession() async {
+        guard let session = activeSession else { return }
+        
+        // Hide the active session from UI immediately
+        activeSession = nil
+        
+        // If using ArgmaxEngine, keep recording for 5s after stop is clicked
+        if transcriptionService.engine is ArgmaxEngine {
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
+        }
+        
         transcriptionService.stopRecording()
         
         // Mock saving the session to a meeting
-        if let session = activeSession {
-            let transcript = await transcriptionService.generateFinalDiarizedTranscript()
-            let newMeeting = Meeting(
-                title: "New Recording",
-                date: session.startTime,
-                durationMinutes: Int(Date().timeIntervalSince(session.startTime) / 60),
-                summaryPreview: transcriptionService.currentTranscript,
-                summary: transcriptionService.currentTranscript,
-                participantsCount: 1,
-                tasks: [],
-                decisions: [],
-                transcript: transcript,
-                audioFileURL: transcriptionService.currentAudioFileURL,
-                isImportant: false
-            )
-            meetings.insert(newMeeting, at: 0)
-        }
+        let transcript = await transcriptionService.generateFinalDiarizedTranscript()
+        let newMeeting = Meeting(
+            title: "New Recording",
+            date: session.startTime,
+            durationMinutes: max(1, Int(Date().timeIntervalSince(session.startTime) / 60)),
+            summaryPreview: transcriptionService.currentTranscript,
+            summary: transcriptionService.currentTranscript,
+            participantsCount: 1,
+            tasks: [],
+            decisions: [],
+            transcript: transcript,
+            audioFileURL: transcriptionService.currentAudioFileURL,
+            isImportant: false
+        )
         
-        activeSession = nil
-        transcriptionService.currentTranscript = "Waiting for speech..."
+        await MainActor.run {
+            meetings.insert(newMeeting, at: 0)
+            transcriptionService.currentTranscript = "Waiting for speech..."
+        }
     }
     
     func clearMeetings() {
