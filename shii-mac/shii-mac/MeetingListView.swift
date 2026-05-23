@@ -22,17 +22,32 @@ struct MeetingListView: View {
                             .foregroundColor(.brandTextMuted)
                         
                         Button {
-                            appState.startSession()
+                            if appState.transcriptionService.isModelLoaded {
+                                appState.startSession()
+                            }
                         } label: {
-                            Text("Record your first meeting")
-                                .fontWeight(.medium)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
+                            HStack {
+                                if !appState.transcriptionService.isModelLoaded {
+                                    ProgressView(value: appState.transcriptionService.modelLoadingProgress, total: 1.0)
+                                        .progressViewStyle(.circular)
+                                        .controlSize(.small)
+                                        .tint(.brandBg)
+                                    
+                                    Text("Downloading AI: \(Int(appState.transcriptionService.modelLoadingProgress * 100))%")
+                                        .fontWeight(.medium)
+                                } else {
+                                    Text("Record your first meeting")
+                                        .fontWeight(.medium)
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
                         }
                         .buttonStyle(.plain)
-                        .background(Color.brandAccent)
-                        .foregroundColor(Color.brandBg)
+                        .background(appState.transcriptionService.isModelLoaded ? Color.brandAccent : Color.brandCardBorder)
+                        .foregroundColor(appState.transcriptionService.isModelLoaded ? Color.brandBg : Color.brandTextMuted)
                         .cornerRadius(8)
+                        .disabled(!appState.transcriptionService.isModelLoaded)
                     }
                     .frame(maxWidth: .infinity)
                 } else {

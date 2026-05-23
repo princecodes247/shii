@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ECCAA9582FC11B7500152894 /* FluidAudio in Frameworks */ = {isa = PBXBuildFile; productRef = ECCAA9572FC11B7500152894 /* FluidAudio */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		ECCAA9382FC10C7500152894 /* shii-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "shii-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECCAA9582FC11B7500152894 /* FluidAudio in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "shii-mac";
 			packageProductDependencies = (
+				ECCAA9572FC11B7500152894 /* FluidAudio */,
 			);
 			productName = "shii-mac";
 			productReference = ECCAA9382FC10C7500152894 /* shii-mac.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = ECCAA92F2FC10C7500152894;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ECCAA9562FC11B7500152894 /* XCRemoteSwiftPackageReference "FluidAudio" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ECCAA9392FC10C7500152894 /* Products */;
 			projectDirPath = "";
@@ -250,12 +259,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CODE_SIGN_ENTITLEMENTS = "shii-mac/shii-mac.entitlements";
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires the microphone to transcribe your meetings.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -280,12 +291,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CODE_SIGN_ENTITLEMENTS = "shii-mac/shii-mac.entitlements";
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires the microphone to transcribe your meetings.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -325,6 +338,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ECCAA9562FC11B7500152894 /* XCRemoteSwiftPackageReference "FluidAudio" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/FluidInference/FluidAudio.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ECCAA9572FC11B7500152894 /* FluidAudio */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECCAA9562FC11B7500152894 /* XCRemoteSwiftPackageReference "FluidAudio" */;
+			productName = FluidAudio;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ECCAA9302FC10C7500152894 /* Project object */;
 }

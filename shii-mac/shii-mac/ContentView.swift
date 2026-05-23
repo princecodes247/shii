@@ -86,6 +86,8 @@ struct ContentView: View {
 
 struct CustomSidebar: View {
     @Binding var selectedTab: NavigationTab
+    @Environment(AppState.self) private var appState
+    @State private var isRecordHovered = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -95,7 +97,48 @@ struct CustomSidebar: View {
                 .font(.system(size: 18, weight: .bold, design: .default))
                 .foregroundColor(.brandTextMain)
                 .padding(.horizontal, 16)
-                .padding(.bottom, 16)
+                .padding(.bottom, 8)
+            
+            // Quick Record Button
+            Button {
+                if appState.activeSession == nil {
+                    appState.startSession()
+                }
+            } label: {
+                HStack(spacing: 8) {
+                    if !appState.transcriptionService.isModelLoaded {
+                        ProgressView(value: appState.transcriptionService.modelLoadingProgress, total: 1.0)
+                            .progressViewStyle(.circular)
+                            .controlSize(.small)
+                            .tint(.brandBg)
+                        Text("\(Int(appState.transcriptionService.modelLoadingProgress * 100))%")
+                            .font(.system(size: 13, weight: .bold))
+                    } else {
+                        Image(systemName: "mic.fill")
+                            .font(.system(size: 14, weight: .semibold))
+                        Text("Record")
+                            .font(.system(size: 13, weight: .bold))
+                    }
+                    Spacer()
+                }
+                .foregroundColor(appState.activeSession != nil ? .brandTextMuted : .brandBg)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(appState.activeSession != nil ? Color.brandCardBorder : (isRecordHovered ? Color.brandAccent.opacity(0.9) : Color.brandAccent))
+                )
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 12)
+            .padding(.bottom, 16)
+            .disabled(appState.activeSession != nil)
+            .onHover { hovering in
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    isRecordHovered = hovering
+                }
+            }
             
             ForEach(NavigationTab.allCases) { tab in
                 SidebarButton(tab: tab, isSelected: selectedTab == tab) {
