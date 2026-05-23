@@ -11,7 +11,9 @@ struct Meeting: Identifiable, Hashable {
     let participantsCount: Int
     let tasks: [TaskItem]
     let decisions: [DecisionItem]
-    let transcript: [TranscriptItem]
+    var transcript: [TranscriptItem]
+    var isRetranscribing: Bool = false
+    let audioFileURL: URL?
     
     let isImportant: Bool
 }
@@ -59,6 +61,7 @@ extension Meeting {
                 TranscriptItem(timestamp: "12:05", speaker: "You", text: "Yeah I agree, but let's make sure billing is done first. Are we still using Stripe?"),
                 TranscriptItem(timestamp: "12:06", speaker: "Sarah", text: "Yes, Stripe is the plan. I will review the integration.")
             ],
+            audioFileURL: nil,
             isImportant: true
         ),
         Meeting(
@@ -75,6 +78,7 @@ extension Meeting {
                 DecisionItem(description: "Approved layout direction")
             ],
             transcript: [],
+            audioFileURL: nil,
             isImportant: false
         ),
         Meeting(
@@ -87,6 +91,7 @@ extension Meeting {
             tasks: [],
             decisions: [],
             transcript: [],
+            audioFileURL: nil,
             isImportant: false
         )
     ]

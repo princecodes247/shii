@@ -173,4 +173,8 @@ class FluidAudioEngine: TranscriptionEngine {
         let seconds = Int(time) % 60
         return String(format: "%02i:%02i", minutes, seconds)
     }
+    
+    func transcribeFile(url: URL) async throws -> [TranscriptItem] {
+        throw NSError(domain: "FluidAudioEngine", code: 99, userInfo: [NSLocalizedDescriptionKey: "File transcription not implemented for FluidAudioEngine."])
+    }
 }

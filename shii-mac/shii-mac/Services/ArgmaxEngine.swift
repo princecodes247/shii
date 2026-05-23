@@ -132,4 +132,34 @@ class ArgmaxEngine: TranscriptionEngine {
         let seconds = Int(time) % 60
         return String(format: "%02i:%02i", minutes, seconds)
     }
+    
+    func transcribeFile(url: URL) async throws -> [TranscriptItem] {
+        guard let wk = whisperKit, let sk = speakerKit else {
+            throw NSError(domain: "ArgmaxEngine", code: 1, userInfo: [NSLocalizedDescriptionKey: "Models not loaded"])
+        }
+        
+        let audioArray = try AudioProcessor.loadAudioAsFloatArray(fromPath: url.path)
+        var floatArray = audioArray
+        
+        // Pad with 1 second of silence
+        floatArray.append(contentsOf: Array(repeating: Float(0), count: 16000))
+        
+        let transcription = try await wk.transcribe(audioArray: floatArray)
+        let diarization = try await sk.diarize(audioArray: floatArray)
+        
+        let speakerSegments = diarization.addSpeakerInfo(to: transcription)
+        
+        var items: [TranscriptItem] = []
+        for group in speakerSegments {
+            for segment in group {
+                items.append(TranscriptItem(
+                    timestamp: formatTimestamp(TimeInterval(segment.startTime)),
+                    speaker: segment.speaker.description,
+                    text: segment.text
+                ))
+            }
+        }
+        
+        return items
+    }
 }

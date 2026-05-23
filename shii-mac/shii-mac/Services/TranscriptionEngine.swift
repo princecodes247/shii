@@ -26,4 +26,7 @@ protocol TranscriptionEngine: AnyObject {
     
     /// Generates the final formatted TranscriptItems after stopping.
     func generateFinalDiarizedTranscript(fallbackText: String) async -> [TranscriptItem]
+    
+    /// Transcribes and diarizes a completed audio file.
+    func transcribeFile(url: URL) async throws -> [TranscriptItem]
 }

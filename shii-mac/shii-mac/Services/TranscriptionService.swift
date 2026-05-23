@@ -1,8 +1,7 @@
 import Foundation
 import AVFoundation
 class TranscriptionService: TranscriptionEngineDelegate {
-    private let audioEngine = AVAudioEngine()
-    private var sinkNode: AVAudioSinkNode?
+    private let audioRecorder = AudioRecorder()
     
     var engine: TranscriptionEngine
     
@@ -10,6 +9,7 @@ class TranscriptionService: TranscriptionEngineDelegate {
     var isModelLoaded = false
     var modelLoadingProgress: Double = 0.0
     var currentTranscript = "Initializing AI model..."
+    var currentAudioFileURL: URL?
     
     private let sampleRate: Double = 16000.0
     
@@ -68,60 +68,13 @@ class TranscriptionService: TranscriptionEngineDelegate {
             throw NSError(domain: "TranscriptionService", code: 2, userInfo: [NSLocalizedDescriptionKey: "Model not loaded yet."])
         }
         
-        let inputNode = audioEngine.inputNode
-        let inputFormat = inputNode.outputFormat(forBus: 0)
-        
-        // Target format: 16kHz mono float
-        guard let targetFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 1, interleaved: false) else {
-            throw NSError(domain: "TranscriptionService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to create target format"])
+        audioRecorder.onAudioBuffer = { [weak self] buffer in
+            self?.processAudio(buffer: buffer)
         }
         
-        // Use an AVAudioSinkNode to terminate the graph safely.
-        if sinkNode == nil {
-            sinkNode = AVAudioSinkNode { (timestamp, frames, audioBufferList) -> OSStatus in
-                return noErr
-            }
-        }
+        self.currentAudioFileURL = try audioRecorder.startRecording()
+        print("Recording to: \(self.currentAudioFileURL?.path ?? "")")
         
-        if let sink = sinkNode, !audioEngine.attachedNodes.contains(sink) {
-            audioEngine.attach(sink)
-        }
-        if let sink = sinkNode {
-            audioEngine.connect(inputNode, to: sink, format: inputFormat)
-        }
-        
-        guard let converter = AVAudioConverter(from: inputFormat, to: targetFormat) else {
-            throw NSError(domain: "TranscriptionService", code: 3, userInfo: [NSLocalizedDescriptionKey: "Format conversion not supported."])
-        }
-        
-
-        inputNode.removeTap(onBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 8192, format: inputFormat) { [weak self] (buffer, when) in
-            // Calculate capacity for the converted buffer
-            let capacity = AVAudioFrameCount(targetFormat.sampleRate * Double(buffer.frameLength) / inputFormat.sampleRate)
-            // Add a small padding to capacity to be safe
-            guard let outputBuffer = AVAudioPCMBuffer(pcmFormat: targetFormat, frameCapacity: capacity + 1024) else { return }
-            
-            var error: NSError? = nil
-            var inputPassed = false
-            let status = converter.convert(to: outputBuffer, error: &error) { inNumPackets, outStatus in
-                if inputPassed {
-                    outStatus.pointee = .noDataNow
-                    return nil
-                }
-                inputPassed = true
-                outStatus.pointee = .haveData
-                return buffer
-            }
-            
-            if status != .error, error == nil {
-                self?.processAudio(buffer: outputBuffer)
-            }
-        }
-        
-        audioEngine.prepare()
-        
-        try audioEngine.start()
         isRecording = true
         currentTranscript = "Listening..."
         
@@ -129,8 +82,7 @@ class TranscriptionService: TranscriptionEngineDelegate {
     }
     
     func stopRecording() {
-        audioEngine.stop()
-        audioEngine.inputNode.removeTap(onBus: 0)
+        audioRecorder.stopRecording()
         isRecording = false
         engine.stop()
     }

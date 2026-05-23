@@ -44,6 +44,7 @@ class AppState {
                 tasks: [],
                 decisions: [],
                 transcript: transcript,
+                audioFileURL: transcriptionService.currentAudioFileURL,
                 isImportant: false
             )
             meetings.insert(newMeeting, at: 0)
@@ -55,6 +56,34 @@ class AppState {
     
     func clearMeetings() {
         meetings = []
+    }
+    
+    func retranscribe(meetingId: UUID) {
+        guard let index = meetings.firstIndex(where: { $0.id == meetingId }) else { return }
+        var meeting = meetings[index]
+        guard let fileURL = meeting.audioFileURL else { return }
+        
+        meeting.isRetranscribing = true
+        meetings[index] = meeting
+        
+        Task {
+            do {
+                let newTranscript = try await transcriptionService.engine.transcribeFile(url: fileURL)
+                await MainActor.run {
+                    var updatedMeeting = self.meetings[index]
+                    updatedMeeting.transcript = newTranscript
+                    updatedMeeting.isRetranscribing = false
+                    self.meetings[index] = updatedMeeting
+                }
+            } catch {
+                print("Retranscription failed: \(error)")
+                await MainActor.run {
+                    var updatedMeeting = self.meetings[index]
+                    updatedMeeting.isRetranscribing = false
+                    self.meetings[index] = updatedMeeting
+                }
+            }
+        }
     }
     
     func loadMockData() {

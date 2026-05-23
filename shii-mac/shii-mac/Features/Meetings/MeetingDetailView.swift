@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MeetingDetailView: View {
     let meeting: Meeting
+    @Environment(AppState.self) private var appState
     @State private var showFullTranscript = false
     
     var body: some View {
@@ -9,9 +10,29 @@ struct MeetingDetailView: View {
             VStack(alignment: .leading, spacing: 32) {
                 // Header
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(meeting.title)
-                        .font(.system(size: 28, weight: .semibold, design: .default))
-                        .foregroundColor(.primary)
+                    HStack {
+                        Text(meeting.title)
+                            .font(.system(size: 28, weight: .semibold, design: .default))
+                            .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        if let fileURL = meeting.audioFileURL, FileManager.default.fileExists(atPath: fileURL.path) {
+                            Button(action: {
+                                appState.retranscribe(meetingId: meeting.id)
+                            }) {
+                                if meeting.isRetranscribing {
+                                    ProgressView()
+                                        .controlSize(.small)
+                                        .padding(.horizontal, 4)
+                                } else {
+                                    Label("Retranscribe", systemImage: "arrow.triangle.2.circlepath")
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(meeting.isRetranscribing)
+                        }
+                    }
                     
                     HStack(spacing: 12) {
                         Text(meeting.date.timeString())
@@ -199,5 +220,6 @@ struct SectionHeader: View {
 
 #Preview {
     MeetingDetailView(meeting: Meeting.mockData[0])
+        .environment(AppState())
         .frame(width: 600, height: 800)
 }
